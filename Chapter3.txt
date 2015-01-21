@@ -1,0 +1,2 @@
+Everything has been installed and set up correctly.
+Directory called code has been created.
