@@ -26,6 +26,9 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+TEMPLATE_PATH = os.path.join(BASE_DIR, 'templates')
+
+STATIC_PATH = os.path.join(BASE_DIR,'static')
 
 # Application definition
 
@@ -38,6 +41,14 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rango',
 )
+
+TEMPLATE_DIRS = [TEMPLATE_PATH,]
+
+STATICFILES_DIRS = [STATIC_PATH,]
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
