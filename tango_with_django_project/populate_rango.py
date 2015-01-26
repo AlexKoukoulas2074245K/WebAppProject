@@ -12,15 +12,18 @@ def populate():
 
     add_page(cat=python_cat,
         title="Official Python Tutorial",
-        url="http://docs.python.org/2/tutorial/")
+        url="http://docs.python.org/2/tutorial/",
+        views=50)
 
     add_page(cat=python_cat,
         title="How to Think like a Computer Scientist",
-        url="http://www.greenteapress.com/thinkpython/")
+        url="http://www.greenteapress.com/thinkpython/",
+        views=40)
 
     add_page(cat=python_cat,
         title="Learn Python in 10 Minutes",
-        url="http://www.korokithakis.net/tutorials/python/")
+        url="http://www.korokithakis.net/tutorials/python/",
+        views=35)
 
     django_cat = add_cat("Django",64,32)
 
@@ -50,7 +53,8 @@ def populate():
 
     add_page(cat=student_cat,
         title="Github page",
-        url="https://github.com/2086225A")
+        url="https://github.com/2086225A",
+        views=55)
 
     add_page(cat=student_cat,
         title="PythonAnywhere page",
@@ -70,7 +74,7 @@ def add_cat(name,views,likes):
     c = Category.objects.get_or_create(name=name)[0]
     c.views = views
     c.likes = likes
-    c.save()
+    #c.save()
     return c
 
 # Start execution here!
