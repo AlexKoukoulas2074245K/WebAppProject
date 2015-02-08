@@ -42,6 +42,8 @@ INSTALLED_APPS = (
     'rango',
 )
 
+LOGIN_URL = '/rango/login/'
+
 TEMPLATE_DIRS = [TEMPLATE_PATH,]
 
 STATICFILES_DIRS = [STATIC_PATH,]
