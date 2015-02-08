@@ -5,6 +5,7 @@ from rango.forms import CategoryForm, PageForm
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 
 def index(request):
     category_list = Category.objects.order_by('-likes')[:5]
@@ -181,9 +182,7 @@ def user_login(request):
 
 @login_required
 def restricted(request):
-    return HttpResponse("Since you're logged in, you can see this text!")
-
-from django.contrib.auth import logout
+    return render(request,'rango/restricted.html')
 
 # Use the login_required() decorator to ensure only those logged in can access the view.
 @login_required
