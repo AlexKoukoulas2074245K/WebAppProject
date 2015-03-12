@@ -193,5 +193,27 @@ def profile(request):
     context_dict = { 'user' : user, 'userprofile' : user_profile}
 
     return render(request, 'rango/profile.html', context_dict)
-    
+
+def edit_profile(request):
+    context_dict = {}
+    if request.method == 'POST':
+        user_profile_form = UserProfileForm(data=request.POST, instance=request.user.userprofile)
+        if user_profile_form.is_valid():
+            if request.user.is_authenticated():
+                user_profile = UserProfile.objects.get(user_id=request.user.id)
+                if 'picture' in request.FILES:
+                    user_profile.picture = request.FILES['picture']
+                if 'website' in user_profile_form.cleaned_data:
+                    user_profile.website = user_profile_form.cleaned_data['website']
+
+                user_profile.save()
+
+            profile = UserProfile.objects.get(user=request.user)
+            context_dict['user_name'] = request.user.username
+            context_dict['user_email'] = request.user.email
+            context_dict['userprofile'] = profile
+            return render(request, 'rango/profile.html', context_dict)
+    else:
+        user_profile_form = UserProfileForm(instance=request.user.userprofile)
+    return render(request,'rango/edit_profile.html',{'profile_form':user_profile_form})
     

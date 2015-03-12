@@ -18,6 +18,8 @@
 		<p>Profile Picture: <img src="{{ userprofile.picture.url }}" alt="User image" /></p>
 	{% endif %}
 	<p><a href="{% url 'auth_password_change' %}">Change Password</a></p>
+	<br>
+	<p><a href="{% url 'edit_profile' %}">Edit Profile</a></p>
 	
 	
 {% endblock %}
