@@ -166,8 +166,8 @@ def track_url(request):
     return redirect(url)
 def register_profile(request):
     if request.method == "POST":
-        profile_form = UserProfileForm(request.POST)
-	if profile_form.is_valid():
+        user_profile_form = UserProfileForm(request.POST)
+	if user_profile_form.is_valid():
             if request.user.is_authenticated():
                 profile = profile_form.save(commit=False)
                 user = User.objects.get(id=request.user.id)
@@ -177,7 +177,6 @@ def register_profile(request):
                     profile.picture = request.FILES['picture']
                 except:
                     pass
-                profile.save()
             return redirect('/rango/')
         else:
             print profile_form.errors
