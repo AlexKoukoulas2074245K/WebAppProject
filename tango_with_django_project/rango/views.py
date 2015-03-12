@@ -76,7 +76,6 @@ def category(request, category_name_slug):
         context_dict['category'] = category
     except Category.DoesNotExist:
         pass
-
     if not context_dict['query']:
         context_dict['query'] = category.name
 
