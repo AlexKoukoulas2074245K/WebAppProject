@@ -59,14 +59,17 @@ def category(request, category_name_slug):
     context_dict['result_list'] = None
     context_dict['query'] = None
     if request.method == 'POST':
-        query = request.POST['query'].strip()
+        try:
+            query = request.POST['query'].strip()
 
-        if query:
+            if query:
             # Run our Bing function to get the results list!
-            result_list = run_query(query)
+                result_list = run_query(query)
 
-            context_dict['result_list'] = result_list
-            context_dict['query'] = query
+                context_dict['result_list'] = result_list
+                context_dict['query'] = query
+        except:
+            pass
 
     try:
         category = Category.objects.get(slug=category_name_slug)
