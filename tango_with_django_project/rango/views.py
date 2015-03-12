@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from rango.models import Category, Page
+from rango.models import Category, Page, UserProfile
 from rango.forms import CategoryForm, PageForm
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
@@ -9,6 +9,8 @@ from django.contrib.auth import logout
 from datetime import datetime
 from rango.bing_search import run_query
 from django.shortcuts import redirect
+from rango.forms import UserForm, UserProfileForm
+from django.contrib.auth.models import User
 
 def index(request):
     category_list = Category.objects.order_by('-likes')[:5]
@@ -131,8 +133,6 @@ def add_page(request, category_name_slug):
 
     return render(request, 'rango/add_page.html', context_dict)
 
-from rango.forms import UserForm, UserProfileForm
-
 @login_required
 def restricted(request):
     return render(request,'rango/restricted.html')
@@ -165,3 +165,33 @@ def track_url(request):
                 pass
 
     return redirect(url)
+def register_profile(request):
+    if request.method == "POST":
+        profile_form = UserProfileForm(request.POST)
+	if profile_form.is_valid():
+            if request.user.is_authenticated():
+                profile = profile_form.save(commit=False)
+                user = User.objects.get(id=request.user.id)
+                profile.user = user
+                profile.website = request.POST['website']
+                try:
+                    profile.picture = request.FILES['picture']
+                except:
+                    pass
+                profile.save()
+            return redirect('/rango/')
+        else:
+            print profile_form.errors
+    else:
+        form = UserProfileForm()
+    
+    return render(request, 'rango/profile_registration.html',{'profile_form': form})
+
+def profile(request):
+    user = User.objects.get(username=request.user.username)
+    user_profile = UserProfile.objects.get(user=user)
+    context_dict = { 'user' : user, 'userprofile' : user_profile}
+
+    return render(request, 'rango/profile.html', context_dict)
+    
+    

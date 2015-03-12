@@ -1,0 +1,23 @@
+{% extends "rango/base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block body_block %}
+	<div class="page-header">
+		<h1>User Profile</h1>
+	</div>
+	<p>Username - {{ user.username }}<p>
+	<br>
+	<p>Email - {{ user.email }}<p>
+	<br>
+	{% if userprofile.website %}
+		<p>Website - <a href="{{ userprofile.website }}">{{ userprofile.website }}</a><p>
+		<br>
+	{% endif %}
+	{% if userprofile.picture %}
+		<p>Profile Picture: <img src="{{ userprofile.picture.url }}" alt="User image" /></p>
+	{% endif %}
+	<p><a href="{% url 'auth_password_change' %}">Change Password</a></p>
+	
+	
+{% endblock %}
