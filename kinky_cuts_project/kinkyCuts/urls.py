@@ -8,5 +8,6 @@ urlpatterns = patterns('',
     url(r'^mypictures/$', views.mypictures, name='mypictures'),
     url(r'^myaccount/$', views.myaccount, name='myaccount'),
     url(r'^help/$', views.helpage, name='help'),
+    url(r'^canvas/$', views.canvas, name='canvas'),
     url(r'^sign/$', views.sign, name='sign'),
     )

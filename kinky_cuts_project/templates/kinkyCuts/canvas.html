@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<body>
+	<div id='d1' style="position:absolute; top:0px; left:200px; z-index:1">
+		<button id="zoomin" type="button" onclick="zoomIn()">+</button>
+		<button id="zommout" type="button" onclick="zoomOut()">-</button>
+		<canvas id="canvas" draggable="true" width="350" height="430" style="border-style:solid;border-radius:10px">
+		</canvas>
+	</div>
+		
+	<div id='d2' style="position:absolute; top:330px; left:620px; z-index:1">
+		<img id="1" draggable="true" ondragstart="drag(event)" src={% static "images/1.png" %} width="100" height="100" style="border-style:solid">
+	</div>
+	<div id='d3' style="position:absolute; top:220px; left:620px; z-index:1">
+		<img id="2" draggable="true" ondragstart="drag(event)" src={% static "images/2.png" %} width="100" height="100" style="border-style:solid">
+	</div>
+	<div id='d4' style="position:absolute; top:110px; left:620px; z-index:1">
+		<img id="3" draggable="true" ondragstart="drag(event)" src={% static "images/3.png" %} width="100" height="100" style="border-style:solid">
+	</div>
+	<div id='d5' style="position:absolute; top:0px; left:620px; z-index:1">
+		<img id="4" draggable="true" ondragstart="drag(event)" src={% static "images/4.png" %} width="100" height="100" style="border-style:solid">
+
+	</div>
+	
+		
+		
+
+	<img id="face" src={% static "images/baldguy.png" %} draggable="false" style="visibility:hidden">
+
+	<script>
+		var draggedIndex = "0";
+		var droppedItem = false;
+		var dragging = false;
+		var imageXOffset = 0;
+		var imageYOffset = 0;
+		var dragStartX = 0;
+		var dragStartY = 0;
+		var currentX = imageXOffset;
+		var currentY = imageYOffset;
+		var scale = 1;
+
+			window.onload = function()
+			{
+				var can = document.getElementById("canvas");
+				can.addEventListener("dragstart", dragStart, false);
+				can.addEventListener("dragover", allowDrop, false);
+				can.addEventListener("drop", drop, false)
+				can.addEventListener("drag", dragMain, false);
+				can.addEventListener("dragend", dragEnd, false);
+				can.addEventListener("mousemove", mouseMove, false);
+				can.addEventListener("wheel", wheelHandling, false);
+				var imgBack = document.getElementById("face");
+			}
+
+			setInterval(function()
+			{
+
+				var can = document.getElementById("canvas");
+				var con = can.getContext("2d");
+				con.clearRect(0,0, can.width, can.height);
+				var imgFace = document.getElementById("face");
+				con.drawImage(imgFace, imageXOffset, imageYOffset, can.width * scale, can.height * scale);
+
+				if(draggedIndex != "0" && droppedItem)
+				{
+					var imgHair = document.getElementById(draggedIndex);
+					con.drawImage(imgHair, 0, 0, can.width, can.height);
+				}
+
+			}, 1);
+
+			function dragStart(event)
+			{
+				dragging = true;
+				dragStartX = event.pageX;
+				dragStartY = event.pageY;
+			}
+
+			function dragMain(event)
+			{
+				if(dragging)
+				{
+					imageXOffset = event.pageX - dragStartX;
+					imageYOffset = event.pageY - dragStartY;
+				}
+			}
+
+			function zoomIn()
+			{
+				scale += 0.1;
+				if(scale > 2) scale = 2;
+			}
+
+			function zoomOut()
+			{
+				scale -= 0.1;
+				if(scale < 0) scale = 0;
+			}
+
+			function dragEnd(event)
+			{
+				dragging = false;
+			}
+		
+			function allowDrop(ev)
+			{
+				ev.preventDefault();
+			}
+
+			function drag(ev)
+			{
+				draggedIndex = ev.target.id;
+				imageXOffset = 0;
+				imageYOffset = 0;
+				droppedItem = false;
+			}
+
+			function drop(ev)
+			{
+				ev.preventDefault();
+				droppedItem = true;
+				
+			}
+		</script>
+	</body>
+<html>

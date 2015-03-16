@@ -30,3 +30,17 @@ def helpage(request):
 def sign(request):
     context_dict = {}
     return render(request, 'kinkyCuts/sign.html', context_dict)
+
+def canvas(request):
+    context_dict = {}
+    return render(request, 'kinkyCuts/canvas.html', context_dict)
+
+#Ignore this view, still needs work done - Sayyad
+def upload_file(request):
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            handle_uploaded_file(request.FILES['file'])
+            return HttpResponseRedirect('/success/url/')
+    else:
+        form = UploadFileForm()
